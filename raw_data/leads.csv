@@ -1,0 +1,151 @@
+lead_id;prenom;nom;telephone;email;date_creation;source;commercial_assigne_id
+1000;Jean-Pierre;Garcia;33639580708;jean-pierre.garcia26@email.fr;2026-01-11 17:41:00;Site Web;8
+1001;Michel;Fournier;33667989904;michel.fournier54@email.fr;2026-01-06 13:09:00;Google Ads;7
+1002;Gérard;Girard;33664881828;gérard.girard64@email.fr;2026-01-12 18:29:00;Google Ads;3
+1003;Michel;Richard;33620720877;michel.richard45@email.fr;2026-01-10 18:21:00;Google Ads;2
+1004;Marcel;Roux;33643297359;marcel.roux60@email.fr;2026-01-15 11:15:00;Partenaire A;1
+1005;Jacques;Robert;33628874094;jacques.robert91@email.fr;2026-01-11 09:15:00;;2
+1006;Monique;Thomas;33633705600;monique.thomas51@email.fr;2026-01-08 08:42:00;Site Web;4
+1007;Yvette;Durand;33666373570;yvette.durand42@email.fr;2026-01-05 10:23:00;Partenaire A;4
+1008;Josette;Thomas;33650101422;josette.thomas50@email.fr;2026-01-06 14:01:00;Site Web;1
+1009;Roger;Petit;33641297860;roger.petit44@email.fr;2026-01-14 16:59:00;Facebook;4
+1010;Denise;Fournier;33637180225;denise.fournier92@email.fr;2026-01-03 18:14:00;Partenaire A;1
+1011;Françoise;Bertrand;33672122349;françoise.bertrand70@email.fr;2026-01-02 16:00:00;Partenaire B;5
+1012;Jean-Pierre;André;33658701938;jean-pierre.andré88@email.fr;2026-01-11 13:49:00;Partenaire A;2
+1013;Marie-Claire;Moreau;33681232162;marie-claire.moreau5@email.fr;2026-01-14 17:57:00;Google Ads;6
+1014;Gérard;Michel;33688069994;gérard.michel61@email.fr;2026-01-11 18:04:00;Google Ads;6
+1015;Roger;Girard;33677346902;roger.girard87@email.fr;2026-01-09 16:03:00;;5
+1016;Marie-Claire;Girard;33635536443;marie-claire.girard4@email.fr;2026-01-06 16:54:00;Facebook;3
+1017;Jacques;Robert;33692993730;jacques.robert59@email.fr;2026-01-11 09:12:00;Facebook;2
+1018;Denise;Bertrand;33691635197;denise.bertrand30@email.fr;2026-01-03 09:34:00;Bouche à oreille;3
+1019;Jacqueline;Thomas;33647255944;jacqueline.thomas11@email.fr;2026-01-14 13:58:00;Partenaire B;6
+1020;Roger;Girard;33633312130;roger.girard18@email.fr;2026-01-10 18:22:00;Site Web;7
+1021;Claude;Roux;33622823764;claude.roux65@email.fr;2026-01-01 13:09:00;Bouche à oreille;7
+1022;Michel;Lefebvre;33671327651;michel.lefebvre38@email.fr;2026-01-06 10:01:00;Bouche à oreille;4
+1023;René;Richard;33636726674;rené.richard4@email.fr;2026-01-15 08:39:00;Google Ads;8
+1024;Michel;Moreau;33643090297;michel.moreau66@email.fr;2026-01-13 17:54:00;Bouche à oreille;2
+1025;Jean-Pierre;Laurent;33652549336;jean-pierre.laurent99@email.fr;2026-01-04 18:50:00;Bouche à oreille;5
+1026;Claude;Roux;33697506178;claude.roux54@email.fr;2026-01-01 18:53:00;Site Web;5
+1027;Nicole;Moreau;33618455047;nicole.moreau78@email.fr;2026-01-10 13:59:00;Partenaire A;6
+1028;Christiane;Thomas;33652179426;christiane.thomas35@email.fr;2026-01-15 18:06:00;Facebook;6
+1029;Jacques;Simon;33664619300;jacques.simon94@email.fr;2026-01-05 18:53:00;Facebook;7
+1030;Josette;Bernard;33666192154;josette.bernard53@email.fr;2026-01-03 17:35:00;Partenaire B;4
+1031;Simone;Richard;33634736918;simone.richard41@email.fr;2026-01-14 11:24:00;Site Web;4
+1032;Josette;Thomas;33640266048;josette.thomas50@email.fr;2026-01-06 18:05:00;Site Web;1
+1033;Gérard;Leroy;33696328655;gérard.leroy26@email.fr;2026-01-09 18:16:00;Bouche à oreille;4
+1034;Suzanne;Robert;33692294212;suzanne.robert47@email.fr;2026-01-07 18:54:00;Site Web;2
+1035;René;André;33691651987;rené.andré60@email.fr;2026-01-13 13:03:00;Partenaire A;3
+1036;Marcel;Leroy;33623387079;marcel.leroy34@email.fr;2026-01-09 10:03:00;Bouche à oreille;5
+1037;Yvette;Martin;33677011411;yvette.martin49@email.fr;2026-01-06 12:00:00;Site Web;4
+1038;Jean-Pierre;Moreau;33623395151;jean-pierre.moreau43@email.fr;2026-01-01 12:25:00;Site Web;3
+1039;Yvette;Richard;33619233218;yvette.richard61@email.fr;2026-01-11 12:07:00;Google Ads;4
+1040;Monique;David;33687167519;monique.david21@email.fr;2026-01-09 09:16:00;Site Web;4
+1041;Simone;Fournier;33654676992;simone.fournier9@email.fr;2026-01-03 15:48:00;Site Web;2
+1042;Nicole;Girard;33644116091;nicole.girard97@email.fr;2026-01-09 08:01:00;Partenaire A;6
+1043;René;André;33662478091;rené.andré76@email.fr;2026-01-01 08:44:00;Facebook;2
+1044;Yvette;Durand;33637089892;yvette.durand47@email.fr;2026-01-07 18:13:00;Bouche à oreille;8
+1045;Jacqueline;David;33648983254;jacqueline.david57@email.fr;2026-01-04 17:06:00;Bouche à oreille;99
+1046;Simone;Bertrand;33619474858;simone.bertrand42@email.fr;2026-01-05 15:33:00;Bouche à oreille;3
+1047;Alain;Bertrand;33695029059;alain.bertrand55@email.fr;2026-01-07 12:33:00;Site Web;1
+1048;Claude;David;33688577904;claude.david10@email.fr;2026-01-09 13:21:00;Facebook;2
+1049;Marcel;Bernard;33665695738;marcel.bernard57@email.fr;2026-01-07 16:14:00;Partenaire B;3
+1050;Suzanne;Durand;33658120684;suzanne.durand93@email.fr;2026-01-05 12:53:00;Facebook;3
+1051;Françoise;Lefebvre;33638589157;françoise.lefebvre75@email.fr;2026-01-04 13:30:00;Partenaire A;8
+1052;Roger;Simon;33611562627;roger.simon16@email.fr;2026-01-15 16:04:00;Google Ads;1
+1053;Suzanne;Bernard;33623049847;suzanne.bernard51@email.fr;2026-01-04 09:54:00;Facebook;6
+1054;Monique;Martin;33694872779;monique.martin50@email.fr;2026-01-05 09:14:00;Partenaire B;8
+1055;Alain;Leroy;33641578021;alain.leroy84@email.fr;2026-01-15 16:22:00;Google Ads;5
+1056;Yvette;Michel;33681794861;yvette.michel71@email.fr;2026-01-05 14:30:00;Site Web;8
+1057;Jacques;Dubois;33614952854;jacques.dubois13@email.fr;2026-01-10 17:07:00;Site Web;8
+1058;Françoise;Vincent;33674935048;françoise.vincent45@email.fr;2026-01-13 11:09:00;Site Web;4
+1059;Jean-Pierre;Michel;33695854910;jean-pierre.michel50@email.fr;2026-01-10 12:42:00;Google Ads;1
+1060;Jacques;Mercier;33628750208;jacques.mercier77@email.fr;2026-01-03 09:58:00;Site Web;1
+1061;Roger;David;33650899692;roger.david48@email.fr;2026-01-08 16:53:00;Site Web;2
+1062;Roger;Mercier;33691419273;roger.mercier46@email.fr;2026-01-13 08:57:00;Site Web;8
+1063;Françoise;Durand;33671572219;françoise.durand59@email.fr;2026-01-07 18:35:00;Site Web;1
+1064;Suzanne;Fournier;33620475873;suzanne.fournier79@email.fr;2026-01-07 11:35:00;Bouche à oreille;6
+1065;Bernard;Richard;33639714839;bernard.richard12@email.fr;2026-01-10 11:28:00;Bouche à oreille;8
+1066;Jean-Pierre;Bernard;33616580419;jean-pierre.bernard45@email.fr;2026-01-09 18:27:00;Facebook;2
+1067;Claude;Mercier;33681160994;claude.mercier10@email.fr;2026-01-05 09:58:00;Site Web;5
+1068;Françoise;Lefebvre;33620507076;françoise.lefebvre12@email.fr;2026-01-01 16:59:00;Facebook;6
+1069;Marie-Claire;Mercier;33682593965;marie-claire.mercier86@email.fr;2026-01-09 13:44:00;Bouche à oreille;5
+1070;Roger;Michel;33669745104;roger.michel49@email.fr;2026-01-07 09:03:00;Site Web;2
+1071;Marcel;Moreau;33645369868;marcel.moreau56@email.fr;2026-01-14 11:09:00;Site Web;7
+1072;Pierre;Bernard;33626837070;pierre.bernard9@email.fr;2026-01-11 09:59:00;Site Web;2
+1073;Jacques;Girard;33660559409;jacques.girard16@email.fr;2026-01-02 18:31:00;Partenaire B;2
+1074;Marcel;Bertrand;33693115121;marcel.bertrand15@email.fr;2026-01-02 17:51:00;Partenaire A;1
+1075;Gérard;Petit;33679330356;gérard.petit71@email.fr;2026-01-13 14:05:00;Facebook;4
+1076;Françoise;Simon;33634919504;françoise.simon61@email.fr;2026-01-10 11:58:00;Partenaire B;1
+1077;Marcel;Moreau;33640407297;marcel.moreau34@email.fr;2026-01-02 15:50:00;Google Ads;3
+1078;Jacques;Durand;33676778748;jacques.durand41@email.fr;2026-01-09 11:27:00;Partenaire A;1
+1079;Michel;André;33634595125;michel.andré64@email.fr;2026-01-06 15:48:00;Partenaire A;2
+1080;Denise;Bertrand;33693315385;denise.bertrand69@email.fr;2026-01-02 12:59:00;Facebook;2
+1081;Josette;André;33648350875;josette.andré77@email.fr;2026-01-03 08:45:00;Partenaire B;6
+1082;Monique;Thomas;33687732032;monique.thomas35@email.fr;2026-01-01 10:09:00;Bouche à oreille;8
+1083;Michel;André;33683646712;michel.andré43@email.fr;2026-01-10 08:56:00;Facebook;4
+1084;Nicole;Richard;33653359986;nicole.richard69@email.fr;2026-01-14 15:29:00;Bouche à oreille;2
+1085;André;Bernard;33611897495;andré.bernard97@email.fr;2026-01-07 18:37:00;Bouche à oreille;7
+1086;Alain;Vincent;33625956652;alain.vincent14@email.fr;2026-01-14 11:39:00;Google Ads;5
+1087;Simone;Mercier;33649509431;simone.mercier59@email.fr;2026-01-14 17:30:00;Bouche à oreille;1
+1088;Nicole;Martin;33682080314;nicole.martin94@email.fr;2026-01-08 18:38:00;Partenaire A;4
+1089;Huguette;Roux;33635571048;huguette.roux82@email.fr;2026-01-02 08:48:00;Site Web;5
+1090;Alain;Simon;33663014256;alain.simon57@email.fr;2026-01-07 16:52:00;Partenaire A;8
+1091;Bernard;Thomas;33681371709;bernard.thomas76@email.fr;2026-01-07 17:34:00;Partenaire A;5
+1092;Jean-Pierre;Vincent;33623490229;jean-pierre.vincent38@email.fr;2026-01-15 16:07:00;Partenaire A;4
+1093;Denise;Thomas;33616240545;denise.thomas3@email.fr;2026-01-03 15:15:00;Bouche à oreille;8
+1094;Claude;Vincent;33690348057;claude.vincent91@email.fr;2026-01-12 13:54:00;Site Web;5
+1095;Nicole;Laurent;33652232709;nicole.laurent93@email.fr;2026-01-14 11:31:00;;8
+1096;Françoise;Thomas;33691119223;françoise.thomas5@email.fr;2026-01-07 15:05:00;Facebook;8
+1097;Denise;Vincent;33620684217;denise.vincent27@email.fr;2026-01-04 16:50:00;Bouche à oreille;6
+1098;André;André;33645191947;andré.andré46@email.fr;2026-01-01 12:52:00;Bouche à oreille;3
+1099;Nicole;Vincent;33677015279;nicole.vincent6@email.fr;2026-01-06 17:08:00;Google Ads;4
+1100;Yvette;Leroy;33616887641;yvette.leroy15@email.fr;2026-01-15 11:35:00;Bouche à oreille;3
+1101;Bernard;Leroy;33698828350;bernard.leroy33@email.fr;2026-01-06 10:05:00;Facebook;8
+1102;André;Petit;33616399746;andré.petit90@email.fr;2026-01-01 15:15:00;Google Ads;3
+1103;Suzanne;Lefebvre;33617919869;roger.david48@email.fr;2026-01-02 10:21:00;;6
+1104;Monique;Vincent;33659016929;monique.vincent15@email.fr;2026-01-01 08:59:00;Partenaire A;6
+1105;André;Fournier;33616274493;andré.fournier39@email.fr;2026-01-13 11:31:00;Bouche à oreille;2
+1106;Suzanne;Morel;33681673631;suzanne.morel91@email.fr;2026-01-06 12:01:00;Site Web;4
+1107;Yvette;Simon;33654480643;yvette.simon74@email.fr;2026-01-09 18:09:00;Bouche à oreille;8
+1108;Gérard;Roux;33674179989;gérard.roux38@email.fr;2026-01-15 17:08:00;Site Web;5
+1109;Huguette;Bernard;33662663070;huguette.bernard3@email.fr;2026-01-05 13:19:00;Partenaire B;2
+1110;Simone;Durand;33616357654;simone.durand24@email.fr;2026-01-07 18:58:00;Partenaire B;7
+1111;Marie-Claire;Robert;33659847104;marie-claire.robert43@email.fr;2026-01-07 09:11:00;Bouche à oreille;3
+1112;Bernard;Laurent;33623869340;bernard.laurent78@email.fr;2026-01-15 14:20:00;Bouche à oreille;7
+1113;Simone;André;33662491773;simone.andré51@email.fr;2026-01-08 14:19:00;Bouche à oreille;7
+1114;Josette;Girard;33644116091;josette.girard42@email.fr;2026-01-10 14:04:00;Google Ads;3
+1115;Roger;Vincent;33667989904;roger.vincent41@email.fr;2026-01-02 09:34:00;Partenaire A;3
+1116;André;Durand;33666945342;andré.durand11@email.fr;2026-01-05 10:16:00;Site Web;7
+1117;Monique;Garcia;33641262610;monique.garcia79@email.fr;2026-01-11 15:32:00;Google Ads;5
+1118;Gérard;Fournier;33634899210;gérard.fournier84@email.fr;2026-01-03 17:59:00;Bouche à oreille;4
+1119;Jacques;Roux;33684446184;jacques.roux36@email.fr;2026-01-14 16:40:00;Google Ads;5
+1120;René;Vincent;33697629202;rené.vincent84@email.fr;2026-01-01 16:09:00;Facebook;88
+1121;Simone;Girard;33642241371;simone.girard36@email.fr;2026-01-01 14:44:00;Site Web;5
+1122;Claude;André;33667629809;claude.andré46@email.fr;2026-01-10 15:13:00;Site Web;1
+1123;Marie-Claire;Petit;33611515446;marie-claire.petit99@email.fr;2026-01-05 14:48:00;Google Ads;6
+1124;Michel;Girard;33642546016;michel.girard86@email.fr;2026-01-08 14:34:00;Google Ads;8
+1125;Bernard;Michel;33642029920;bernard.michel80@email.fr;2026-01-02 14:26:00;Facebook;4
+1126;Jacques;Laurent;33681289956;jacques.laurent53@email.fr;2026-01-03 15:00:00;Partenaire B;7
+1127;Suzanne;Robert;33645191947;suzanne.robert75@email.fr;2026-01-14 13:26:00;Partenaire A;6
+1128;Marie-Claire;Lefebvre;33671709110;marie-claire.lefebvre80@email.fr;2026-01-06 16:58:00;Facebook;1
+1129;Josette;Michel;33698612213;josette.michel42@email.fr;2026-01-13 16:32:00;Google Ads;4
+1130;Monique;Dubois;33680620709;monique.dubois96@email.fr;2026-01-02 18:20:00;Bouche à oreille;3
+1131;Claude;Morel;33652549336;claude.morel20@email.fr;2026-01-13 15:17:00;Partenaire A;2
+1132;André;Michel;33625421401;michel.fournier54@email.fr;2026-01-04 11:06:00;Partenaire B;4
+1133;André;Morel;33649031540;andré.morel93@email.fr;2026-01-02 15:23:00;Partenaire B;5
+1134;Marie-Claire;Roux;33693168686;marie-claire.roux98@email.fr;2026-01-08 13:50:00;Partenaire B;3
+1135;Yvette;David;33686295279;yvette.david6@email.fr;2026-01-02 10:25:00;Partenaire B;5
+1136;Suzanne;David;33699901601;claude.david10@email.fr;2026-01-13 09:39:00;Google Ads;7
+1137;Huguette;Dubois;33666176522;huguette.dubois51@email.fr;2026-01-02 14:52:00;Facebook;5
+1138;Denise;Roux;33675082457;denise.roux22@email.fr;2026-01-02 14:05:00;Bouche à oreille;1
+1139;Simone;Simon;33610061202;simone.simon90@email.fr;2026-01-07 12:10:00;Google Ads;1
+1140;Bernard;Moreau;33621100995;bernard.moreau46@email.fr;2026-01-12 15:21:00;Facebook;2
+1141;Marcel;Petit;33626636153;marcel.petit79@email.fr;2026-01-15 09:19:00;Facebook;6
+1142;Denise;Durand;33680489278;denise.durand81@email.fr;2026-01-11 18:02:00;Bouche à oreille;1
+1143;Françoise;Durand;33668670257;françoise.durand19@email.fr;2026-01-07 11:19:00;Partenaire B;7
+1144;Marcel;Mercier;33651401935;marcel.mercier18@email.fr;2026-01-01 08:29:00;Partenaire A;8
+1145;Pierre;Martin;33634750598;pierre.martin56@email.fr;2026-01-09 17:07:00;;8
+1146;Denise;André;33625325096;denise.andré62@email.fr;2026-01-08 14:38:00;Facebook;2
+1147;Simone;Lefebvre;33695136540;simone.lefebvre8@email.fr;2026-01-02 10:29:00;Google Ads;4
+1148;Nicole;Fournier;33642562178;nicole.fournier61@email.fr;2026-01-06 14:47:00;Partenaire B;8
+1149;Claude;Robert;33691635197;claude.robert80@email.fr;2026-01-03 10:57:00;Facebook;5
