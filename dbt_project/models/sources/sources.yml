@@ -1,0 +1,163 @@
+version: 2
+
+sources:
+  - name: raw
+    description: Raw data loaded from CSV files
+    database: assurplus
+    schema: raw
+    tables:
+      - name: leads
+        description: Lead data from CRM
+        columns:
+          - name: lead_id
+            description: Unique identifier for each lead
+            tests:
+              - not_null
+              - unique
+          
+          - name: telephone
+            description: Lead phone number
+            tests:
+              - not_null
+              - no_duplicates
+          
+          - name: email
+            description: Lead email address
+            tests:
+              - not_null
+              - no_duplicates
+          
+          - name: date_creation
+            description: Lead creation timestamp
+            tests:
+              - not_null
+          
+          - name: commercial_assigne_id
+            description: Assigned sales rep ID
+            tests:
+              - relationships:
+                  to: source('raw', 'commerciaux')
+                  field: id
+                  config:
+                    severity: warn
+                    where: "commercial_assigne_id != '' AND commercial_assigne_id IS NOT NULL"
+
+      - name: appels
+        description: Call history data
+        columns:
+          - name: appel_id
+            description: Unique identifier for each call
+            tests:
+              - not_null
+              - unique
+          
+          - name: lead_id
+            description: Lead being called
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'leads')
+                  field: lead_id
+                  config:
+                    severity: error
+                    error_if: ">0"
+                    warn_if: ">0"
+                    # This will catch orphan calls (Part 1.1.2)
+          
+          - name: commercial_id
+            description: Sales rep making the call
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'commerciaux')
+                  field: id
+          
+          - name: date_appel
+            description: Call timestamp
+            tests:
+              - not_null
+          
+          - name: duree_secondes
+            description: Call duration in seconds
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0
+                  max_value: 7200
+                  config:
+                    severity: warn
+          
+          - name: statut
+            description: Call outcome status
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['connected', 'no_answer', 'busy', 'messagerie', 'faux_numero', 'repondeur']
+
+      - name: contrats
+        description: Contract/signature data
+        columns:
+          - name: contrat_id
+            description: Unique identifier for each contract
+            tests:
+              - not_null
+              - unique
+          
+          - name: lead_id
+            description: Lead who signed
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'leads')
+                  field: lead_id
+          
+          - name: commercial_id
+            description: Sales rep who closed the deal
+            tests:
+              - not_null
+              - relationships:
+                  to: source('raw', 'commerciaux')
+                  field: id
+          
+          - name: date_signature
+            description: Contract signature date
+            tests:
+              - not_null
+              # Custom test for temporal inconsistencies will be in tests/ directory
+          
+          - name: prime_annuelle
+            description: Annual premium amount
+            tests:
+              - not_null
+              - dbt_expectations.expect_column_values_to_be_between:
+                  min_value: 0
+                  max_value: 10000
+                  config:
+                    severity: warn
+          
+          - name: statut
+            description: Contract status
+            tests:
+              - not_null
+              - accepted_values:
+                  values: ['actif', 'annule', 'en_attente']
+
+      - name: commerciaux
+        description: Sales team roster
+        columns:
+          - name: id
+            description: Unique identifier for each sales rep
+            tests:
+              - not_null
+              - unique
+          
+          - name: email
+            description: Sales rep email
+            tests:
+              - not_null
+              - unique
+          
+          - name: nom
+            description: Sales rep name
+            tests:
+              - not_null

@@ -1,0 +1,32 @@
+services:
+  postgres_db:
+    image: postgres:16-alpine
+    container_name: assurplus-db
+    environment:
+      POSTGRES_DB: assurplus
+      POSTGRES_USER: assurplus
+      POSTGRES_PASSWORD: assurplus
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./raw_data:/data:ro
+      - ./docker/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U assurplus"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  dbt:
+    build:
+      context: .
+    container_name: assurplus-dbt
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    volumes:
+      - ./dbt_project:/usr/app:rw
+    working_dir: /usr/app
+    environment:
+      DBT_PROFILES_DIR: /usr/app
+    command: sleep infinity

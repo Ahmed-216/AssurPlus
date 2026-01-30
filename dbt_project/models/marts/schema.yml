@@ -1,0 +1,58 @@
+version: 2
+
+models:
+  - name: fct_performance
+    description: |
+      Performance metrics aggregated by sales rep.
+      Answers Part 1.2 of the case study (performance analysis).
+    columns:
+      - name: commercial_id
+        description: Sales rep identifier
+        tests:
+          - unique
+          - not_null
+
+      - name: taux_joignabilite_pct
+        description: Percentage of calls that connected
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+      - name: taux_conversion_pct
+        description: Percentage of contacted leads that converted
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+
+  - name: fct_conversions
+    description: |
+      Conversion funnel analysis for leads who signed contracts.
+      Answers Part 1.3 of the case study (sales cycle analysis).
+    columns:
+      - name: contrat_id
+        description: Contract identifier
+        tests:
+          - unique
+          - not_null
+
+      - name: jours_premier_appel_signature
+        description: Days between first call and signature
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 365
+              config:
+                severity: warn
+
+      - name: nombre_appels_avant_signature
+        description: Number of calls before the lead signed
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 100
+              config:
+                severity: warn
