@@ -3,7 +3,6 @@ dbt_project/target/
 dbt_project/dbt_packages/
 dbt_project/logs/
 dbt_project/dbt_modules/
-dbt_project/.user.yml
 
 # Python
 *.pyc

@@ -1,45 +1,36 @@
 {{
     config(
-        materialized='view'
+        materialized='table'
     )
 }}
 
-WITH source AS (
-    SELECT * FROM {{ source('raw', 'appels') }}
-),
-
-typed AS (
+WITH typed AS (
     SELECT
-        appel_id::INTEGER AS appel_id,
-        lead_id::INTEGER AS lead_id,
-        commercial_id::INTEGER AS commercial_id,
-        commercial_email,
-        date_appel::TIMESTAMP AS date_appel,
-        duree_secondes::INTEGER AS duree_secondes,
+        appel_id::INTEGER,
+        lead_id::INTEGER,
+        commercial_id::INTEGER,
+        date_appel::TIMESTAMP,
+        CASE 
+            WHEN duree_secondes::INTEGER < 0 THEN NULL
+            ELSE duree_secondes::INTEGER
+        END AS duree_secondes, -- Negative call durations are set to NULL
         statut,
-        campagne_id::INTEGER AS campagne_id,
+        campagne_id::INTEGER,
         campagne_nom
-    FROM source
-),
-
--- Get valid lead_ids and commercial_ids for filtering
-valid_leads AS (
-    SELECT DISTINCT lead_id::INTEGER AS lead_id
-    FROM {{ source('raw', 'leads') }}
-),
-
-valid_commerciaux AS (
-    SELECT DISTINCT id::INTEGER AS commercial_id
-    FROM {{ source('raw', 'commerciaux') }}
-    WHERE id IS NOT NULL AND id != ''
-),
-
--- Filter out orphan calls (invalid lead_id or commercial_id)
-cleaned AS (
-    SELECT t.*
-    FROM typed t
-    INNER JOIN valid_leads vl ON t.lead_id = vl.lead_id
-    INNER JOIN valid_commerciaux vc ON t.commercial_id = vc.commercial_id
+    FROM {{ source('raw', 'appels') }}
 )
+SELECT 
+    t.appel_id,
+    vl.lead_id, -- Invalid lead_id references are set to NULL
+    vc.commercial_id, -- Invalid commercial_id references are set to NULL
+    t.date_appel,
+    t.duree_secondes,
+    t.statut,
+    t.campagne_id,
+    t.campagne_nom
+FROM typed t
+LEFT JOIN {{ ref('stg_leads') }} vl 
+    ON t.lead_id = vl.lead_id
+LEFT JOIN {{ ref('stg_commerciaux') }} vc 
+    ON t.commercial_id = vc.commercial_id
 
-SELECT * FROM cleaned

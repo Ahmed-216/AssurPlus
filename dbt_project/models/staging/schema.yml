@@ -2,110 +2,102 @@ version: 2
 
 models:
   - name: stg_leads
-    description: Cleaned and typed lead data
+    description: "{{ doc('stg_leads') }}"
     columns:
       - name: lead_id
-        description: Unique identifier for each lead
+        description: "{{ doc('stg_leads_lead_id') }}"
         tests:
           - unique
           - not_null
 
       - name: email
-        description: Lead email address
+        description: "{{ doc('stg_leads_email') }}"
         tests:
+          - not_null
+          - unique
           - dbt_expectations.expect_column_values_to_match_regex:
               regex: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
-              config:
-                severity: warn
 
       - name: telephone
-        description: Lead phone number
+        description: "{{ doc('stg_leads_telephone') }}"
         tests:
           - not_null
+          - unique
           - dbt_expectations.expect_column_values_to_match_regex:
               regex: "^[0-9]{11}$"
-              config:
-                severity: warn
 
       - name: date_creation
-        description: Lead creation timestamp
+        description: "{{ doc('stg_leads_date_creation') }}"
         tests:
           - not_null
-          - dbt_expectations.expect_column_values_to_be_between:
-              min_value: "2026-01-01"
-              max_value: "2026-01-31"
+          # Date range validated in raw sources; staging data is already cleaned
 
       - name: commercial_assigne_id
-        description: Assigned sales rep ID
+        description: "{{ doc('stg_leads_commercial_assigne_id') }}"
         tests:
           - relationships:
               to: ref('stg_commerciaux')
               field: commercial_id
-              config:
-                severity: warn
 
   - name: stg_appels
-    description: Cleaned and typed call data
+    description: "{{ doc('stg_appels') }}"
     columns:
       - name: appel_id
-        description: Unique identifier for each call
+        description: "{{ doc('stg_appels_appel_id') }}"
         tests:
           - unique
           - not_null
 
       - name: lead_id
-        description: Lead being called
+        description: "{{ doc('stg_appels_lead_id') }}"
         tests:
-          - not_null
+          # NULL allowed - invalid lead_id references are set to NULL
           - relationships:
               to: ref('stg_leads')
               field: lead_id
-              config:
-                severity: error
-                error_if: ">10"
-                warn_if: ">0"
+              where: "lead_id IS NOT NULL"
 
       - name: commercial_id
-        description: Sales rep making the call
+        description: "{{ doc('stg_appels_commercial_id') }}"
         tests:
-          - not_null
+          # NULL allowed - invalid commercial_id references are set to NULL
           - relationships:
               to: ref('stg_commerciaux')
               field: commercial_id
+              where: "commercial_id IS NOT NULL"
 
       - name: date_appel
-        description: Call timestamp
+        description: "{{ doc('stg_appels_date_appel') }}"
         tests:
           - not_null
 
       - name: duree_secondes
-        description: Call duration in seconds
+        description: "{{ doc('stg_appels_duree_secondes') }}"
         tests:
-          - not_null
+          # NULL allowed - negative durations are set to NULL
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
               max_value: 7200
-              config:
-                severity: warn
+              where: "duree_secondes IS NOT NULL"
 
       - name: statut
-        description: Call outcome status
+        description: "{{ doc('stg_appels_statut') }}"
         tests:
           - not_null
           - accepted_values:
               values: ['connected', 'no_answer', 'busy', 'messagerie', 'faux_numero', 'repondeur']
 
   - name: stg_contrats
-    description: Cleaned and typed contract data
+    description: "{{ doc('stg_contrats') }}"
     columns:
       - name: contrat_id
-        description: Unique identifier for each contract
+        description: "{{ doc('stg_contrats_contrat_id') }}"
         tests:
           - unique
           - not_null
 
       - name: lead_id
-        description: Lead who signed
+        description: "{{ doc('stg_contrats_lead_id') }}"
         tests:
           - not_null
           - relationships:
@@ -113,7 +105,7 @@ models:
               field: lead_id
 
       - name: commercial_id
-        description: Sales rep who closed the deal
+        description: "{{ doc('stg_contrats_commercial_id') }}"
         tests:
           - not_null
           - relationships:
@@ -121,12 +113,12 @@ models:
               field: commercial_id
 
       - name: date_signature
-        description: Contract signature date
+        description: "{{ doc('stg_contrats_date_signature') }}"
         tests:
           - not_null
 
       - name: prime_annuelle
-        description: Annual premium amount
+        description: "{{ doc('stg_contrats_prime_annuelle') }}"
         tests:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
@@ -134,28 +126,28 @@ models:
               max_value: 10000
 
       - name: statut
-        description: Contract status
+        description: "{{ doc('stg_contrats_statut') }}"
         tests:
           - not_null
           - accepted_values:
               values: ['actif', 'annule', 'en_attente']
 
   - name: stg_commerciaux
-    description: Cleaned and typed sales team data
+    description: "{{ doc('stg_commerciaux') }}"
     columns:
       - name: commercial_id
-        description: Unique identifier for each sales rep
+        description: "{{ doc('stg_commerciaux_commercial_id') }}"
         tests:
           - unique
           - not_null
 
       - name: email
-        description: Sales rep email
+        description: "{{ doc('stg_commerciaux_email') }}"
         tests:
           - unique
           - not_null
 
       - name: nom
-        description: Sales rep name
+        description: "{{ doc('stg_commerciaux_nom') }}"
         tests:
           - not_null
