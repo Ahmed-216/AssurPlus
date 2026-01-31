@@ -51,20 +51,18 @@ models:
       - name: lead_id
         description: "{{ doc('stg_appels_lead_id') }}"
         tests:
-          # NULL allowed - invalid lead_id references are set to NULL
+          - not_null
           - relationships:
               to: ref('stg_leads')
               field: lead_id
-              where: "lead_id IS NOT NULL"
 
       - name: commercial_id
         description: "{{ doc('stg_appels_commercial_id') }}"
         tests:
-          # NULL allowed - invalid commercial_id references are set to NULL
+          - not_null
           - relationships:
               to: ref('stg_commerciaux')
               field: commercial_id
-              where: "commercial_id IS NOT NULL"
 
       - name: date_appel
         description: "{{ doc('stg_appels_date_appel') }}"
@@ -74,11 +72,10 @@ models:
       - name: duree_secondes
         description: "{{ doc('stg_appels_duree_secondes') }}"
         tests:
-          # NULL allowed - negative durations are set to NULL
+          - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
               max_value: 7200
-              where: "duree_secondes IS NOT NULL"
 
       - name: statut
         description: "{{ doc('stg_appels_statut') }}"
@@ -123,7 +120,7 @@ models:
           - not_null
           - dbt_expectations.expect_column_values_to_be_between:
               min_value: 0
-              max_value: 10000
+              max_value: 5000
 
       - name: statut
         description: "{{ doc('stg_contrats_statut') }}"

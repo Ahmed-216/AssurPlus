@@ -1,10 +1,8 @@
 version: 2
 
 models:
-  - name: fct_performance
-    description: |
-      Performance metrics aggregated by sales rep.
-      Answers Part 1.2 of the case study (performance analysis).
+  - name: commercial_performance
+    description: Performance metrics aggregated by sales rep.
     columns:
       - name: commercial_id
         description: Sales rep identifier

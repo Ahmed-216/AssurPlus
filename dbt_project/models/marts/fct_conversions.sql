@@ -36,6 +36,7 @@ contrats AS (
         prime_annuelle,
         statut
     FROM {{ ref('stg_contrats') }}
+    WHERE statut != 'annule'  -- Only analyze successful conversions
 ),
 
 leads AS (

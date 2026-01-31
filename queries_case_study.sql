@@ -93,7 +93,7 @@ LEFT JOIN raw.commerciaux c
 WHERE a.commercial_email IS NOT NULL AND a.commercial_email != ''
   AND a.commercial_email != c.email;
 
--- Incohérence commercial : le commercial du contrat n'est pas celui qui a effectué le plus d'appels
+-- Incohérence de commercial assigné : le commercial du contrat n'est pas celui qui a effectué le plus d'appels
 
 WITH lead_callers AS (
     SELECT
@@ -101,7 +101,7 @@ WITH lead_callers AS (
         commercial_id,
         COUNT(*) AS call_count
     FROM raw.appels
-    WHERE statut IN ('connected', 'messagerie')
+    WHERE statut = 'connected'
     GROUP BY lead_id, commercial_id
 ),
 lead_primary_caller AS (
@@ -117,18 +117,18 @@ SELECT
     c.lead_id,
     l.commercial_assigne_id AS assigned_commercial_id,
     c.commercial_id AS contract_commercial_id,
-    lpc.primary_caller_id,
-    lpc.call_count AS calls_by_primary_commercial,
-    lc.call_count AS calls_by_contract_commercial
+    lpc.primary_caller_commercial_id,
+    lpc.call_count AS connected_calls_by_primary_commercial,
+    COALESCE(lc.call_count, 0) AS connected_calls_by_contract_commercial
 FROM raw.contrats c
 JOIN lead_primary_caller lpc 
     ON c.lead_id = lpc.lead_id
 JOIN raw.leads l 
     ON c.lead_id = l.lead_id
-JOIN lead_callers lc 
+LEFT JOIN lead_callers lc 
     ON c.commercial_id = lc.commercial_id
     AND c.lead_id = lc.lead_id
-WHERE lpc.call_count != lc.call_count;
+WHERE (lc.call_count IS NULL AND c.commercial_id != lpc.primary_caller_id) OR lpc.call_count != lc.call_count;
 
 -- Note : Les autres tests de qualité des données sont appliqués avec dbt
 
@@ -139,19 +139,23 @@ WHERE lpc.call_count != lc.call_count;
 
 WITH appels_agg AS (
     SELECT
-        commercial_id,
+        a.commercial_id,
         COUNT(*) AS total_appels,
         COUNT(CASE WHEN statut = 'connected' THEN 1 END) AS appels_connectes,
         COUNT(DISTINCT lead_id) AS leads_distincts_contactes
-    FROM raw.appels
-    WHERE commercial_id IS NOT NULL AND commercial_id != ''
+    FROM raw.appels a
+    JOIN raw.commerciaux c
+        ON a.commercial_id = c.id
     GROUP BY commercial_id
 ),
 contrats_agg AS (
     SELECT
         commercial_id,
         COUNT(*) AS nombre_contrats
-    FROM raw.contrats
+    FROM raw.contrats c
+    JOIN raw.commerciaux com
+        ON c.commercial_id = com.id
+    WHERE statut != 'annule'  -- Exclude canceled contracts from conversion metrics
     GROUP BY commercial_id
 )
 SELECT
@@ -181,82 +185,36 @@ ORDER BY nombre_contrats DESC, taux_conversion_pct DESC;
 -- PARTIE 1.3 — ANALYSE DU CYCLE DE VENTE (Leads ayant signé un contrat)
 -- =============================================================================
 
-WITH premier_appel AS (
+WITH appels_stats AS (
     SELECT
         lead_id,
-        MIN(date_appel::TIMESTAMP) AS date_premier_appel
-    FROM raw.appels
-    WHERE date_appel IS NOT NULL AND date_appel != ''
-    GROUP BY lead_id
-),
-appels_par_lead AS (
-    SELECT
-        lead_id,
+        MIN(date_appel::TIMESTAMP) AS date_premier_appel,
         COUNT(*) AS nombre_appels,
-        MAX(date_appel::TIMESTAMP) - MIN(date_appel::TIMESTAMP) AS duree_totale_appels
+        MAX(date_appel::TIMESTAMP) - MIN(date_appel::TIMESTAMP) AS intervalle_appels
     FROM raw.appels
-    WHERE date_appel IS NOT NULL AND date_appel != ''
     GROUP BY lead_id
-),
-contrats_avec_stats AS (
-    SELECT
-        c.contrat_id,
-        c.lead_id,
-        c.date_signature::DATE AS date_signature,
-        c.produit,
-        c.prime_annuelle,
-        pa.date_premier_appel,
-        apl.nombre_appels,
-        EXTRACT(DAY FROM c.date_signature::DATE - pa.date_premier_appel::DATE) AS jours_premier_appel_signature,
-        CASE 
-            WHEN apl.nombre_appels > 1 THEN 
-                EXTRACT(EPOCH FROM apl.duree_totale_appels) / 86400.0 / (apl.nombre_appels - 1)
-            ELSE NULL
-        END AS delai_moyen_entre_appels_jours
-    FROM raw.contrats c
-    INNER JOIN premier_appel pa 
-        ON c.lead_id = pa.lead_id
-    INNER JOIN appels_par_lead apl 
-        ON c.lead_id = apl.lead_id
-    WHERE c.lead_id IS NOT NULL AND c.lead_id != ''
-      AND c.date_signature IS NOT NULL AND c.date_signature != ''
 )
 SELECT
-    lead_id,
-    contrat_id,
-    date_signature,
-    produit,
-    prime_annuelle,
-    nombre_appels AS nombre_appels_avant_signature,
-    jours_premier_appel_signature AS delai_jours_premier_appel_signature,
-    ROUND(delai_moyen_entre_appels_jours::NUMERIC, 2) AS delai_moyen_entre_appels_jours
-FROM contrats_avec_stats
-ORDER BY date_signature;
+    c.lead_id,
+    l.prenom,
+    l.nom,
+    c.contrat_id,
+    c.produit,
+    a.nombre_appels AS nombre_appels_avant_signature,
+    c.date_signature::DATE - a.date_premier_appel::DATE AS delai_jours_premier_appel_signature,
+    CASE 
+        WHEN a.nombre_appels > 1 THEN 
+            ROUND((c.date_signature::DATE - a.date_premier_appel::DATE) / (a.nombre_appels - 1), 2)
+        ELSE NULL
+    END AS delai_moyen_entre_appels_jours
+FROM raw.contrats c
+JOIN appels_stats a 
+    ON c.lead_id = a.lead_id
+JOIN raw.leads l 
+    ON c.lead_id = l.lead_id
+WHERE c.statut != 'annule'  -- Only analyze successful conversions
+  AND c.date_signature::DATE >= a.date_premier_appel::DATE  -- Exclude contracts signed before first call
+ORDER BY c.date_signature;
 
-
--- Statistiques récapitulatives du cycle de vente
-SELECT
-    ROUND(AVG(nombre_appels), 2) AS avg_appels_avant_signature,
-    ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY nombre_appels), 2) AS median_appels,
-    MIN(nombre_appels) AS min_appels,
-    MAX(nombre_appels) AS max_appels,
-    ROUND(AVG(jours_premier_appel_signature), 2) AS avg_jours_conversion,
-    ROUND(PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY jours_premier_appel_signature), 2) AS median_jours_conversion,
-    MIN(jours_premier_appel_signature) AS min_jours_conversion,
-    MAX(jours_premier_appel_signature) AS max_jours_conversion
-FROM (
-    SELECT
-        c.lead_id,
-        COUNT(a.appel_id) AS nombre_appels,
-        EXTRACT(DAY FROM c.date_signature::DATE - MIN(a.date_appel::TIMESTAMP)::DATE) AS jours_premier_appel_signature
-    FROM raw.contrats c
-    INNER JOIN raw.appels a 
-        ON c.lead_id = a.lead_id
-    WHERE c.lead_id IS NOT NULL AND c.lead_id != ''
-      AND c.date_signature IS NOT NULL AND c.date_signature != ''
-      AND a.date_appel IS NOT NULL AND a.date_appel != ''
-      AND a.date_appel::TIMESTAMP <= c.date_signature::TIMESTAMP
-    GROUP BY c.lead_id, c.date_signature::DATE
-) stats;
 
 
