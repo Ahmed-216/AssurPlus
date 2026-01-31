@@ -201,12 +201,12 @@ SELECT
     c.contrat_id,
     c.produit,
     a.nombre_appels AS nombre_appels_avant_signature,
-    c.date_signature::DATE - a.date_premier_appel::DATE AS delai_jours_premier_appel_signature,
+    c.date_signature::DATE - a.date_premier_appel::DATE AS delai_premier_appel_signature,
     CASE 
         WHEN a.nombre_appels > 1 THEN 
             ROUND((c.date_signature::DATE - a.date_premier_appel::DATE) / (a.nombre_appels - 1), 2)
         ELSE NULL
-    END AS delai_moyen_entre_appels_jours
+    END AS delai_moyen_entre_appels
 FROM raw.contrats c
 JOIN appels_stats a 
     ON c.lead_id = a.lead_id
@@ -214,7 +214,7 @@ JOIN raw.leads l
     ON c.lead_id = l.lead_id
 WHERE c.statut != 'annule'  -- Only analyze successful conversions
   AND c.date_signature::DATE >= a.date_premier_appel::DATE  -- Exclude contracts signed before first call
-ORDER BY c.date_signature;
+ORDER BY c.lead_id;
 
 
 
