@@ -16,10 +16,17 @@ This repository contains a complete analytics engineering solution for AssurPlus
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and started
 - Terminal access
 
+### Clone the repository
+
+```bash
+git clone https://github.com/Ahmed-216/AssurPlus.git
+```
+
 ## Build and start containers
 
 Build the dbt Docker image:
 ```bash
+cd AssurPlus
 docker compose build dbt
 ```
 
