@@ -24,6 +24,8 @@ services:
     depends_on:
       postgres_db:
         condition: service_healthy
+    ports:
+      - "8181:8181"
     volumes:
       - ./dbt_project:/usr/app:rw
     working_dir: /usr/app
@@ -34,8 +36,6 @@ services:
   metabase:
     image: metabase/metabase:latest
     container_name: assurplus-metabase
-    profiles:
-      - metabase  # Optional: only starts with --profile metabase
     depends_on:
       postgres_db:
         condition: service_healthy

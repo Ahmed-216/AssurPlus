@@ -22,12 +22,12 @@ contrats_agg AS (
         commercial_id,
         COUNT(*) AS nombre_contrats,
         COUNT(CASE WHEN statut = 'actif' THEN 1 END) AS contrats_actifs,
-        COUNT(CASE WHEN statut = 'annule' THEN 1 END) AS contrats_annules,
         SUM(prime_annuelle) AS ca_total,
         SUM(CASE WHEN statut = 'actif' THEN prime_annuelle ELSE 0 END) AS ca_actif,
         AVG(prime_annuelle) AS prime_moyenne
     FROM {{ ref('contrats') }}
-    WHERE statut != 'annule'  -- Exclude canceled contracts from conversion metrics
+    WHERE statut = 'actif'  -- Contrats actifs uniquement
+    AND lead_id IS NOT NULL
     GROUP BY commercial_id
 )
 
@@ -43,8 +43,6 @@ SELECT
     END AS taux_joignabilite_pct,
     COALESCE(a.leads_distincts_contactes, 0) AS leads_distincts_contactes,
     COALESCE(ct.nombre_contrats, 0) AS nombre_contrats,
-    COALESCE(ct.contrats_actifs, 0) AS contrats_actifs,
-    COALESCE(ct.contrats_annules, 0) AS contrats_annules,
     CASE 
         WHEN COALESCE(a.leads_distincts_contactes, 0) = 0 THEN 0
         ELSE ROUND(100.0 * ct.nombre_contrats / a.leads_distincts_contactes, 2)

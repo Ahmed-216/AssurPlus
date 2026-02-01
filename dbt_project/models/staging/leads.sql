@@ -12,7 +12,7 @@ WITH typed AS (
         telephone,
         email,
         date_creation::TIMESTAMP AS date_creation,
-        source AS acquisition_source,
+        source,
         CASE 
             WHEN commercial_assigne_id = '' THEN NULL
             ELSE commercial_assigne_id::INTEGER
@@ -28,7 +28,7 @@ SELECT
     t.telephone,
     t.email,
     t.date_creation,
-    t.acquisition_source,
+    t.source,
     vc.commercial_id commercial_assigne_id
 FROM typed t
 LEFT JOIN {{ ref('commerciaux') }} vc 

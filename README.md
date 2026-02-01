@@ -1,6 +1,6 @@
 # AssurPlus - Analytics Engineer Case Study
 
-## Overview
+# Overview
 
 This repository contains a complete analytics engineering solution for AssurPlus, including:
 
@@ -9,21 +9,21 @@ This repository contains a complete analytics engineering solution for AssurPlus
 - **dbt project** (data modeling, transformations, quality tests)
 - **Metabase** (BI tool for dashboards and visualizations)
 
-## Quick Start
+# Setup
 
 ### Prerequisites
 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and started
 - Terminal access
 
-### Build and start containers
+## Build and start containers
 
 Build the dbt Docker image:
 ```bash
 docker compose build dbt
 ```
 
-Start containers (Postgres + dbt):
+Start all containers:
 ```bash
 docker compose up -d
 ```
@@ -32,21 +32,18 @@ This will:
 - Start Postgres on `localhost:5432`
 - Auto-load CSVs from `raw_data/` into `raw.*` tables
 - Start dbt container (waits for Postgres to be healthy)
+- Start Metabase on `localhost:3000` for dashboards and visualizations
 
-**With Metabase (optional, adds ~500MB download):**
-```bash
-docker compose --profile metabase up -d
-```
-This also starts Metabase on `localhost:3000` for dashboards and visualizations.
+> **Note:** Metabase takes several minutes to start on first run (~500MB download). 
 
-### Stop everything
+### Cleanup
 
+When you're **done working with the project** :
 ```bash
 docker compose down
 ```  
 
-
-##  Run dbt (transformations + tests)
+#  Run dbt (transformations + tests)
 
 Install dbt packages (first time only):
 ```bash
@@ -66,12 +63,29 @@ docker compose exec dbt dbt test
 Generate documentation:
 ```bash
 docker compose exec dbt dbt docs generate
-docker compose exec dbt dbt docs serve --host 0.0.0.0 --port 8080
+docker compose exec dbt dbt docs serve --port 8181
 ```
 
-## Data Structure
+Then open http://localhost:8181 in your browser.
 
-### Raw Tables (loaded from CSVs)
+# Access Metabase (BI Dashboard)
+
+> **Important:** Run dbt (`docker compose exec dbt dbt run`) to create staging and marts schemas and tables before using Metabase dashboard.
+
+The dashboard will be available at: [http://localhost:3000/dashboard/2-dashboard](http://localhost:3000/dashboard/2-dashboard)
+
+**Login credentials:**
+- **Email**: admin@assurplus.fr
+- **Password**: admin10  
+
+
+
+--
+
+
+# Data Structure
+
+## Raw Tables (loaded from CSVs)
 
 Located in `raw.*` schema :
 
@@ -81,65 +95,19 @@ Located in `raw.*` schema :
 - **`raw.commerciaux`** — Sales team roster
 
 
-### dbt Models
+## dbt Models
 
-#### Staging Models (`staging.*`)
+### Staging Models (`staging.*`)
 Clean, typed, deduplicated foundation for all analytics:
 - **`leads`** — Cleaned leads, typed, invalid commercial references filtered
 - **`appels`** — Cleaned calls, typed, invalid foreign keys set to NULL
 - **`contrats`** — Cleaned contracts, typed, temporal inconsistencies filtered
 - **`commerciaux`** — Clean sales rep data
 
-#### Mart Models (`marts.*`)
+### Mart Models (`marts.*`)
 - **`commercial_performance`** — Commercial performance metrics (Part 1.2)
   - Total calls, connection rate, conversion rate per sales rep
 - **`contrats_stat`** — Sales cycle analysis (Part 1.3)
   - Number of calls before signature, time to conversion, delays
-
-## Data Quality Tests
-
-The dbt project includes comprehensive tests:
-
-1. **Uniqueness tests** — Primary keys (lead_id, appel_id, contrat_id, commercial_id)
-2. **Not-null tests** — Required fields
-3. **Referential integrity** — Foreign key relationships (using `relationships` test)
-4. **Value constraints** — Accepted values for statuses, regex for emails/phones
-5. **Range checks** — Using `dbt_expectations` for date ranges, numeric ranges
-6. **Custom tests** — SQL-based tests for complex business rules (temporal inconsistencies, commercial mismatches, suspicious durations, etc.) 
-
-Run all tests:
-```bash
-docker compose run --rm dbt dbt test
-```
-
-Run specific model tests:
-```bash
-docker compose exec dbt dbt test --select leads
-```  
-
-Run tests on source data:
-```bash
-docker compose exec dbt dbt test --select source:raw
-```
-
-
-## Access Metabase (BI Dashboard)
-
-> **Note:** Start Metabase with `docker compose --profile metabase up -d`
-
-Metabase will be available at: **http://localhost:3000**
-
-### Pre-configured Setup 
-
-This repository includes pre-configured Metabase dashboards in `metabase_data/`. When you start Metabase, the database connection and dashboards are already set up.
-
-**Login credentials:**
-- **Email**: admin
-- **Password**: admin
-
-4. Your configuration will be saved in `metabase_data/` and can be committed to Git
-
-**Important:** Run `dbt run` before using Metabase to ensure all tables are created.
-
-
+- **`funnel_analysis`** — Complete funnel tracking from lead creation to conversion
 

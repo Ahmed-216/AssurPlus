@@ -25,15 +25,15 @@ first_calls AS (
 )
 SELECT 
     t.contrat_id,
-    vl.lead_id, -- Invalid lead_id references are set to NULL
+    l.lead_id, -- Invalid lead_id references are set to NULL
     vc.commercial_id, -- Invalid commercial_id references are set to NULL
     t.date_signature,
     t.produit,
     t.prime_annuelle,
     t.statut
 FROM typed t
-LEFT JOIN {{ ref('leads') }} vl 
-    ON t.lead_id = vl.lead_id
+LEFT JOIN {{ ref('leads') }} l 
+    ON t.lead_id = l.lead_id
 LEFT JOIN {{ ref('commerciaux') }} vc 
     ON t.commercial_id = vc.commercial_id
 LEFT JOIN first_calls fc 

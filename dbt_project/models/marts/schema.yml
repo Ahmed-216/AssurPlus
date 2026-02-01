@@ -60,3 +60,8 @@ models:
               max_value: 100
               config:
                 severity: warn
+
+  - name: funnel_analysis
+    description: Funnel analysis for leads
+
+
