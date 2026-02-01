@@ -1,7 +1,7 @@
 version: 2
 
 models:
-  - name: stg_leads
+  - name: leads
     description: "{{ doc('stg_leads') }}"
     columns:
       - name: lead_id
@@ -36,10 +36,10 @@ models:
         description: "{{ doc('stg_leads_commercial_assigne_id') }}"
         tests:
           - relationships:
-              to: ref('stg_commerciaux')
+              to: ref('commerciaux')
               field: commercial_id
 
-  - name: stg_appels
+  - name: appels
     description: "{{ doc('stg_appels') }}"
     columns:
       - name: appel_id
@@ -53,7 +53,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_leads')
+              to: ref('leads')
               field: lead_id
 
       - name: commercial_id
@@ -61,7 +61,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_commerciaux')
+              to: ref('commerciaux')
               field: commercial_id
 
       - name: date_appel
@@ -84,7 +84,7 @@ models:
           - accepted_values:
               values: ['connected', 'no_answer', 'busy', 'messagerie', 'faux_numero', 'repondeur']
 
-  - name: stg_contrats
+  - name: contrats
     description: "{{ doc('stg_contrats') }}"
     columns:
       - name: contrat_id
@@ -98,7 +98,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_leads')
+              to: ref('leads')
               field: lead_id
 
       - name: commercial_id
@@ -106,7 +106,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_commerciaux')
+              to: ref('commerciaux')
               field: commercial_id
 
       - name: date_signature
@@ -129,7 +129,7 @@ models:
           - accepted_values:
               values: ['actif', 'annule', 'en_attente']
 
-  - name: stg_commerciaux
+  - name: commerciaux
     description: "{{ doc('stg_commerciaux') }}"
     columns:
       - name: commercial_id

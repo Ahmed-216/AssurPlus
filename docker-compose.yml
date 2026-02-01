@@ -30,3 +30,23 @@ services:
     environment:
       DBT_PROFILES_DIR: /usr/app
     command: sleep infinity
+
+  metabase:
+    image: metabase/metabase:latest
+    container_name: assurplus-metabase
+    profiles:
+      - metabase  # Optional: only starts with --profile metabase
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./metabase_data:/metabase-data
+    environment:
+      MB_DB_FILE: /metabase-data/metabase.db
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5

@@ -10,7 +10,7 @@ WITH appels_stats AS (
         MIN(date_appel::TIMESTAMP) AS date_premier_appel,
         COUNT(*) AS nombre_appels,
         MAX(date_appel::TIMESTAMP) - MIN(date_appel::TIMESTAMP) AS intervalle_appels
-    FROM {{ ref('stg_appels') }}
+    FROM {{ ref('appels') }}
     GROUP BY lead_id
 )
 SELECT
@@ -26,10 +26,10 @@ SELECT
             ROUND((c.date_signature::DATE - a.date_premier_appel::DATE) / (a.nombre_appels - 1), 2)
         ELSE NULL
     END AS delai_moyen_entre_appels
-FROM {{ ref('stg_contrats') }} c
+FROM {{ ref('contrats') }} c
 JOIN appels_stats a 
     ON c.lead_id = a.lead_id
-JOIN {{ ref('stg_leads') }} l 
+JOIN {{ ref('leads') }} l 
     ON c.lead_id = l.lead_id
 WHERE c.statut != 'annule'  -- Only analyze successful conversions
   AND c.date_signature::DATE >= a.date_premier_appel::DATE  -- Exclude contracts signed before first call

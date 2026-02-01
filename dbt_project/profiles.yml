@@ -8,5 +8,5 @@ assurplus:
       user: assurplus
       pass: assurplus
       dbname: assurplus
-      schema: staging
+      schema: assurplus
       threads: 4

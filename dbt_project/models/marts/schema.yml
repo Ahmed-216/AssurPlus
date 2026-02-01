@@ -38,7 +38,7 @@ models:
         tests:
           - not_null
           - relationships:
-              to: ref('stg_leads')
+              to: ref('leads')
               field: lead_id
 
       - name: delai_premier_appel_signature

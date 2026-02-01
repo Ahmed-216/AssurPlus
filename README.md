@@ -7,6 +7,7 @@ This repository contains a complete analytics engineering solution for AssurPlus
 - **Raw data** (CSV files in `raw_data/`)
 - **Postgres database** (Docker-based, auto-loads CSVs)
 - **dbt project** (data modeling, transformations, quality tests)
+- **Metabase** (BI tool for dashboards and visualizations)
 
 ## Quick Start
 
@@ -15,7 +16,7 @@ This repository contains a complete analytics engineering solution for AssurPlus
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and started
 - Terminal access
 
-### 1. Build and start containers
+### Build and start containers
 
 Build the dbt Docker image:
 ```bash
@@ -32,7 +33,20 @@ This will:
 - Auto-load CSVs from `raw_data/` into `raw.*` tables
 - Start dbt container (waits for Postgres to be healthy)
 
-### 2. Run dbt (transformations + tests)
+**With Metabase (optional, adds ~500MB download):**
+```bash
+docker compose --profile metabase up -d
+```
+This also starts Metabase on `localhost:3000` for dashboards and visualizations.
+
+### Stop everything
+
+```bash
+docker compose down
+```  
+
+
+##  Run dbt (transformations + tests)
 
 Install dbt packages (first time only):
 ```bash
@@ -55,14 +69,6 @@ docker compose exec dbt dbt docs generate
 docker compose exec dbt dbt docs serve --host 0.0.0.0 --port 8080
 ```
 
-### 3. Stop everything
-
-```bash
-docker compose down
-# Or to remove volumes:
-docker compose down -v
-```
-
 ## Data Structure
 
 ### Raw Tables (loaded from CSVs)
@@ -79,15 +85,15 @@ Located in `raw.*` schema :
 
 #### Staging Models (`staging.*`)
 Clean, typed, deduplicated foundation for all analytics:
-- **`stg_leads`** — Deduplicated leads (by phone/email), typed, earliest record kept
-- **`stg_appels`** — Filtered calls (removed orphans), typed, referential integrity enforced
-- **`stg_contrats`** — Filtered contracts (removed orphans & temporal inconsistencies), typed
-- **`stg_commerciaux`** — Clean sales rep data
+- **`leads`** — Cleaned leads, typed, invalid commercial references filtered
+- **`appels`** — Cleaned calls, typed, invalid foreign keys set to NULL
+- **`contrats`** — Cleaned contracts, typed, temporal inconsistencies filtered
+- **`commerciaux`** — Clean sales rep data
 
 #### Mart Models (`marts.*`)
-- **`fct_performance`** — Commercial performance metrics (Part 1.2)
+- **`commercial_performance`** — Commercial performance metrics (Part 1.2)
   - Total calls, connection rate, conversion rate per sales rep
-- **`fct_conversions`** — Sales cycle analysis (Part 1.3)
+- **`contrats_stat`** — Sales cycle analysis (Part 1.3)
   - Number of calls before signature, time to conversion, delays
 
 ## Data Quality Tests
@@ -108,11 +114,32 @@ docker compose run --rm dbt dbt test
 
 Run specific model tests:
 ```bash
-docker compose run --rm dbt dbt test --select stg_leads
+docker compose exec dbt dbt test --select leads
 ```  
 
 Run tests on source data:
 ```bash
 docker compose exec dbt dbt test --select source:raw
 ```
+
+
+## Access Metabase (BI Dashboard)
+
+> **Note:** Start Metabase with `docker compose --profile metabase up -d`
+
+Metabase will be available at: **http://localhost:3000**
+
+### Pre-configured Setup 
+
+This repository includes pre-configured Metabase dashboards in `metabase_data/`. When you start Metabase, the database connection and dashboards are already set up.
+
+**Login credentials:**
+- **Email**: admin
+- **Password**: admin
+
+4. Your configuration will be saved in `metabase_data/` and can be committed to Git
+
+**Important:** Run `dbt run` before using Metabase to ensure all tables are created.
+
+
 
