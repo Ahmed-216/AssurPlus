@@ -131,8 +131,7 @@ LEFT JOIN lead_callers lc
 WHERE (lc.call_count IS NULL AND c.commercial_id != lpc.primary_caller_id) OR lpc.call_count != lc.call_count;
 
 
--- Requête 1.1.5 : Incohérence de séquence de campagne (campagne_id régresse)
--- Les leads ne devraient pas revenir à une campagne antérieure (ex: J+3 → Lead Frais)
+-- Incohérence de séquence de campagne (campagne_id régresse)
 
 WITH campaign_sequence AS (
     SELECT
@@ -244,26 +243,3 @@ JOIN raw.leads l
 WHERE c.statut != 'annule'  -- Only analyze successful conversions
   AND c.date_signature::DATE >= a.date_premier_appel::DATE  -- Exclude contracts signed before first call
 ORDER BY c.lead_id;
-
-
-
-
-
-
-SELECT 
-    c.nom AS commercial_name,
-    
-    COUNT(lf.lead_id) AS leads_assigned,
-    SUM(contacted) AS leads_contacted,    
-    SUM(reached) AS leads_reached,
-    SUM(converted) AS leads_converted,
-    ROUND(100.0 * SUM(converted) / COUNT(lf.lead_id), 2) AS conversion_rate,
-    
-    ROUND(100.0 * SUM(converted) / NULLIF(SUM(reached), 0), 2) AS conversion_rate_among_reach
-    
-
-FROM assurplus_marts.funnel_analysis lf
-JOIN assurplus_staging.commerciaux c 
-	ON lf.commercial_id = c.commercial_id
-GROUP BY c.nom
-ORDER BY conversion_rate_among_reach DESC, conversion_rate DESC;

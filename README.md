@@ -72,7 +72,7 @@ Then open http://localhost:8181 in your browser.
 
 # Access Metabase (BI Dashboard)
 
-> **Important:** Run dbt (`docker compose exec dbt dbt run`) to create staging and marts schemas and tables before using Metabase dashboard.
+> **Important:** Make sur you have already run dbt (`docker compose exec dbt dbt run`) to create staging and marts schemas and tables before using Metabase dashboard.
 
 The dashboard will be available at: [http://localhost:3000/dashboard/2-dashboard](http://localhost:3000/dashboard/2-dashboard)
 
