@@ -13,20 +13,21 @@ This repository contains a complete analytics engineering solution for AssurPlus
 
 ### Prerequisites
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and started
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and **started**
 - Terminal access
 
 ### Clone the repository
 
 ```bash
 git clone https://github.com/Ahmed-216/AssurPlus.git
+cd AssurPlus
 ```
+
 
 ## Build and start containers
 
 Build the dbt Docker image:
 ```bash
-cd AssurPlus
 docker compose build dbt
 ```
 
@@ -41,14 +42,8 @@ This will:
 - Start dbt container (waits for Postgres to be healthy)
 - Start Metabase on `localhost:3000` for dashboards and visualizations
 
-> **Note:** Metabase takes several minutes to start on first run (~500MB download). 
+> **Note:** Metabase may take several minutes to start on first run (~500MB download). 
 
-### Cleanup
-
-When you're **done working with the project** :
-```bash
-docker compose down
-```  
 
 #  Run dbt (transformations + tests)
 
@@ -116,5 +111,14 @@ Clean, typed, deduplicated foundation for all analytics:
   - Total calls, connection rate, conversion rate per sales rep
 - **`contrats_stat`** — Sales cycle analysis (Part 1.3)
   - Number of calls before signature, time to conversion, delays
-- **`funnel_analysis`** — Complete funnel tracking from lead creation to conversion
+- **`funnel_analysis`** — Complete funnel tracking from lead creation to conversion  
 
+--  
+
+
+## Cleanup
+
+When you're **done working with the project** :
+```bash
+docker compose down
+```  
