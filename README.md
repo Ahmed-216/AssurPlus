@@ -2,7 +2,7 @@
 
 # Overview
 
-This repository contains a complete analytics engineering solution for AssurPlus, including:
+This repository contains a complete analytics engineering solution for AssurPlus, a fictional insurance company including:
 
 - **Raw data** (CSV files in `raw_data/`)
 - **Postgres database** (Docker-based, auto-loads CSVs)
